@@ -1,4 +1,4 @@
-# TODO: Replace with the name of the repo
+# 2026-prospective-biology
 
 [![run with conda](http://img.shields.io/badge/run%20with-conda-3EB049?labelColor=000000&logo=anaconda)](https://docs.conda.io/projects/miniconda/en/latest/)
 
@@ -6,7 +6,7 @@ Note: Analysis repo names should be prefixed with the year (e.g., `2024-noveltre
 
 ## Purpose
 
-TODO: Briefly describe the core analyses performed in the repository and the motivation behind them.
+Code associated with the pub "Biology needs to become prospective".
 
 ## Installation and Setup
 
