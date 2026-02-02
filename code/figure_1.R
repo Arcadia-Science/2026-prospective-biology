@@ -98,7 +98,7 @@ species_prior <- do.call(rbind, species_prior)
 pca <- prcomp(species_prior)
 
 # Save
-# saveRDS(pca, here('out/species_cluster_count_pca.RDS'))
+saveRDS(pca, here("out/species_cluster_count_pca.RDS"))
 
 # Load
 pca <- readRDS(here("out/species_cluster_count_pca.RDS"))
@@ -108,8 +108,10 @@ set.seed(1234)
 u <- umap::umap(pca$x[, 1:200], verbose = TRUE)
 
 # Add phyla to rownames
-rownames(u$layout) <- taxonomy$phylum[match(as.numeric(rownames(u$layout)), 
-                                            as.numeric(taxonomy$ncbi_id))]
+rownames(u$layout) <- taxonomy$phylum[match(
+  as.numeric(rownames(u$layout)),
+  as.numeric(taxonomy$ncbi_id)
+)]
 
 # Plot UMAP
 par(mfrow = c(1, 2))

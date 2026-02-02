@@ -9,6 +9,7 @@ taxonomy <- readRDS(here("data/afdb_filtered_taxonomy.RDS"))
 phylum_tree <- readRDS(here("data/phylum_tree.RDS"))
 dat_filter <- readRDS(here("data/afdb_filtered_complete_proteomes.RDS"))
 dat_phyla <- readRDS(here("data/afdb_filtered_complete_proteomes_10species_per_phylum.RDS"))
+dat_small <- readRDS(here("data/afdb_filtered_1M_proteins.RDS"))
 
 ##### Calculate EIG per species compared to prior missing its phylum#####
 probs <- list()
@@ -20,6 +21,12 @@ for (i in 1:length(dat_phyla)) {
     dat_phyla[[i]],
     dat_phyla[[i]]$taxonomy_ID
   )
+
+  # Add phyla to dat_small
+  dat_small$phyla <- taxonomy$phylum[match(
+    dat_small$taxonomy_ID,
+    taxonomy$ncbi_id
+  )]
 
   # Remove phyla from dat
   q <- dat_small[!dat_small$phyla %in% names(dat_phyla)[i], ]
@@ -64,16 +71,20 @@ for (i in 1:length(dat_phyla)) {
   # Add to results
   probs[[names(dat_phyla)[i]]] <- species_novelty
 }
-out <- lapply(probs, function(y) 
-  unlist(lapply(y, function(x) x$info_gain_bits)))
+out <- lapply(probs, function(y) {
+  unlist(lapply(y, function(x) x$info_gain_bits))
+})
 
 # Save
-# saveRDS(out, here('out/phyla_information_gained_per_species_afdb.RDS'))
-# saveRDS(probs, here('out/phyla_all_novelty_measures_afdb.RDS'))
+saveRDS(out, here("out/phyla_information_gained_per_species_afdb.RDS"))
+saveRDS(probs, here("out/phyla_all_novelty_measures_afdb.RDS"))
 
 ##### Figure 2#####
 # Load
 out <- readRDS(here("phyla_information_gained_per_species_afdb.RDS"))
+
+# Generate species-level list of results
+out_species <- unlist(out)
 
 # Calculate per-phylum median
 out_phyla <- out[order(unlist(lapply(out, function(x) median(x))))]
@@ -126,9 +137,9 @@ abline(
 )
 
 # Calculate domain-level EIG
-k <- out_taxonomy$superkingdom[match(
+k <- taxonomy$superkingdom[match(
   names(out),
-  out_taxonomy$phylum
+  taxonomy$phylum
 )]
 mean(unlist(out[k == "Bacteria"]))
 mean(unlist(out[k == "Eukaryota"]))
@@ -144,13 +155,13 @@ kruskal.test(list(bac, euk))
 ##### Figure 3#####
 # Plot relationship between genome size and information
 x <- genome_stats$protein_n[match(
-  out_taxonomy$ncbi_id,
+  taxonomy$ncbi_id,
   genome_stats$ncbi_id
 )]
 
 # Colors
 kingdom <- taxonomy$kingdom[match(
-  out_taxonomy$ncbi_id,
+  taxonomy$ncbi_id,
   taxonomy$ncbi_id
 )]
 cols <- kingdom_cols[match(kingdom, names(kingdom_cols))]

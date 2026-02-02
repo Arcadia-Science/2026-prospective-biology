@@ -21,6 +21,12 @@ for (i in 1:length(dat_phyla)) {
     dat_phyla[[i]]$taxonomy_ID
   )
 
+  # Add phyla to dat_small
+  dat_small$phyla <- taxonomy$phylum[match(
+    dat_small$taxonomy_ID,
+    taxonomy$ncbi_id
+  )]
+
   # Remove phyla from dat
   q <- dat_small[!dat_small$phyla %in% names(dat_phyla)[i], ]
 
@@ -58,8 +64,10 @@ for (i in 1:length(dat_phyla)) {
     for (k in 1:10) {
       # Get clusters for focal
       p <- cluster_distribution(
-        species[[j]]$cluster_ID[sample(1:nrow(species[[j]]), 
-                                       500, replace = FALSE)],
+        species[[j]]$cluster_ID[sample(1:nrow(species[[j]]),
+          500,
+          replace = FALSE
+        )],
         cls
       )
 
@@ -75,15 +83,16 @@ for (i in 1:length(dat_phyla)) {
   perm_probs[[names(dat_phyla)[i]]] <- species_novelty
 }
 
-#Save
-saveRDS(perm_probs, here('out/phyla_information_gained_per_species_permutation_subsampling_afdb_100proteins.RDS'))
+# Save
+saveRDS(perm_probs, here("out/phyla_information_gained_per_species_permutation_subsampling_afdb_100proteins.RDS"))
 
 ##### Figure 4#####
 # Load
-perm_probs <- readRDS(here('out/phyla_information_gained_per_species_permutation_subsampling_afdb_100proteins.RDS')
+perm_probs <- readRDS(here("out/phyla_information_gained_per_species_permutation_subsampling_afdb_100proteins.RDS"))
 
 # Calculate per phylum median
-out_phyla <- lapply(perm_probs, function(x) unlist(lapply(x, function(y) median(unlist(y)))))
+out_phyla <- lapply(perm_probs, function(x) 
+  unlist(lapply(x, function(y) median(unlist(y)))))
 
 # Filter
 out_phyla <- lapply(out_phyla, function(x) x[x <= 1])
