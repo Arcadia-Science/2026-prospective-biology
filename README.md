@@ -1,5 +1,6 @@
 # 2026-prospective-biology
 
+[![DOI](https://zenodo.org/badge/1142841654.svg)](https://doi.org/10.5281/zenodo.18475275)
 [![run with conda](http://img.shields.io/badge/run%20with-conda-3EB049?labelColor=000000&logo=anaconda)](https://docs.conda.io/projects/miniconda/en/latest/)
 
 ## Purpose
