@@ -4,7 +4,7 @@ library(here)
 suppressMessages(source(here("code/utils.R")))
 
 # Download data from Zenodo
-system('wget -L -O zenodo_data https://zenodo.org/records/18474710/files/data_for_zenodo.zip?download=1 && unzip zenodo_data && mv data_for_zenodo data && rm zenodo_data')
+system("wget -L -O zenodo_data https://zenodo.org/records/18474710/files/data_for_zenodo.zip?download=1 && unzip zenodo_data && mv data_for_zenodo data && rm zenodo_data")
 
 # AFDB clusters
 dat <- readRDS(here("data/afdb_clusters.RDS"))
@@ -31,7 +31,7 @@ names(taxonomy) <- as.character(unique(afdb_taxonomy$ncbi_id))
 taxonomy <- simplify_ncbi(taxonomy)
 
 # Add kingdom oomycota for chromista
-taxonomy$kingdom[grep('Oomycota', taxonomy$phylum)] = 'Chromista'
+taxonomy$kingdom[grep("Oomycota", taxonomy$phylum)] <- "Chromista"
 
 # Add protein n to 'genome_stats'
 dat_species <- split(dat, dat$taxonomy_ID)
@@ -53,11 +53,11 @@ genome_stats$phylum <- afdb_taxonomy$phylum[match(
 
 # Split and filter
 genome_stats_split <- split(genome_stats, genome_stats$superkingdom)
-genome_stats_split$Archaea <- 
+genome_stats_split$Archaea <-
   genome_stats_split$Archaea[genome_stats_split$Archaea$protein_n >= 500, ]
-genome_stats_split$Bacteria <- 
+genome_stats_split$Bacteria <-
   genome_stats_split$Bacteria[genome_stats_split$Bacteria$protein_n >= 500, ]
-genome_stats_split$Eukaryota <- 
+genome_stats_split$Eukaryota <-
   genome_stats_split$Eukaryota[genome_stats_split$Eukaryota$protein_n >= 5000, ]
 
 # Recombine
@@ -76,8 +76,10 @@ dat_phyla <- split(
 )
 
 # Count species n per phylum
-species_n <- unlist(lapply(dat_phyla, 
-                           function(x) length(unique(x$taxonomy_ID))))
+species_n <- unlist(lapply(
+  dat_phyla,
+  function(x) length(unique(x$taxonomy_ID))
+))
 
 # Filter
 dat_phyla <- dat_phyla[species_n >= 10]
