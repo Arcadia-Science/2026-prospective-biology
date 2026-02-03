@@ -2,8 +2,6 @@
 
 [![run with conda](http://img.shields.io/badge/run%20with-conda-3EB049?labelColor=000000&logo=anaconda)](https://docs.conda.io/projects/miniconda/en/latest/)
 
-Note: Analysis repo names should be prefixed with the year (e.g., `2024-noveltree-analysis`). This prefix can be changed at time of publication if appropriate.
-
 ## Purpose
 
 Code associated with the pub "Biology needs to become prospective".
@@ -18,40 +16,33 @@ mamba env create -n <NAME> --file envs/dev.yml
 conda activate <NAME>
 ```
 
-<details><summary>Developer Notes (click to expand/collapse)</summary>
-
-As your project develops, the number of dependencies in your environment may increase. Whenever you install new dependencies (e.g., using `mamba install`), you should update the environment file using the following command.
-
-```{bash}
-conda env export --from-history --no-builds > envs/dev.yml
-```
-
-`--from-history` only exports packages that were explicitly added by you (e.g., the packages you installed with `mamba`) and `--no-builds` removes build specification from the exported packages to increase portability between different platforms. 
-
-</details>
-
 ## Data
 
-TODO: Add details about the description of input / output data and links to Zenodo depositions, if applicable.
+All associated data are available on [Zenodo](https://zenodo.org/records/18474710). This includes AFDB clusters and metadata from "Clustering predicted structures at the scale of the known protein universe" (Hernandez et al. 2023), a time-calibrated phylogeny from TimeTree (Kumar et al. 2022), taxonomic hierarchies accessed from the NCBI Taxonomy database, and genome/proteome statistics from the NCBI Genome resource. 
 
 ## Overview
 
 ### Description of the folder structure
-
+```
+├── code
+│   ├── analysis
+│   │   ├── figure_1.R
+│   │   ├── figures_2_3.R
+│   │   └── figures_4_5.R
+│   └── utils
+│       ├── process_data.R
+│       └── utils.R
+```
 ### Methods
 
-TODO: Include a brief, step-wise overview of analyses performed.
-
-> Example:
->
-> 1. Download scripts using `download.sh`.
-> 2. Preprocess using `./preprocessing.sh -a data/`
-> 3. Run analysis script using `analysis.Rscript`
-> 4. Generate figures using `pub/make_figures.R`.
+1. Download data from Zenodo and preprocess for analyzes using `process_data.R`.
+2. Run analyses and generate plots associated with Figure 1 using `Figure_1.R`.
+3. Run analyses and generate plots associated with Figures 2 and 3 using `Figures_2_3.R`.
+4. Run analyses and generate plots associated with Figures 4 and 5 using `Figures_4_5.R`.
 
 ### Compute Specifications
 
-TODO: Describe what compute resources were used to develop and run the analysis. For example, you could list the operating system, number of cores, RAM, and storage space. You should log any major changes to the compute specifications here as they happen.
+All analyses were done on an Apple MacBook Pro running macOS Montery with 32GB RAM, 10 cores, and 1TB of storage.
 
 ## Contributing
 
