@@ -1,0 +1,7 @@
+install.packages("devtools", version = "2.4.5")
+install.packages("here", version = "1.0.1")
+install.packages("vioplot", version = "0.5.0")
+install.packages("taxonomizr", version = "0.11.1")
+install.packages("taxizedb", version = "0.3.1")
+install.packages("ape", version = "5.8")
+devtools::install_github("Arcadia-Science/arcadiathemeR", version = "0.1.0")

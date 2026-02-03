@@ -1,8 +1,10 @@
+name: prospective-biology
 channels:
   - conda-forge
   - bioconda
   - defaults
 dependencies:
   - jupyter=1.0.0
-  - r-base=4.3.2
+  - r-base=4.4.1
   - r-lintr=3.1.1
+  - wget  
