@@ -3,6 +3,9 @@ library(here)
 # Load required libraries and utility functions
 suppressMessages(source(here("code/utils.R")))
 
+# Download data from Zenodo
+system('wget -L -O zenodo_data https://zenodo.org/records/18474710/files/data_for_zenodo.zip?download=1 && unzip zenodo_data && mv data_for_zenodo data && rm zenodo_data')
+
 # AFDB clusters
 dat <- readRDS(here("data/afdb_clusters.RDS"))
 
